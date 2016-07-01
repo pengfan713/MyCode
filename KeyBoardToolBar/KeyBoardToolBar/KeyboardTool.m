@@ -8,6 +8,10 @@
 
 #import "KeyboardTool.h"
 
+
+#define screenHeight [[UIScreen mainScreen] bounds].size.height
+#define screenWidth [[UIScreen mainScreen] bounds].size.width
+
 @interface KeyboardTool()
 
 @property (nonatomic, strong)UITextField *currentField;
@@ -20,12 +24,7 @@
 {
     if (self == [super init])
     {
-        
-        CGFloat screenHeight = [[UIScreen mainScreen] bounds].size.height;
-        CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-        
         _toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, screenHeight, screenWidth, 44)];
-        
         
         UIBarButtonItem *nextItem = [[UIBarButtonItem alloc] initWithTitle:@"下一个" style:(UIBarButtonItemStylePlain) target:self action:@selector(showNext)];
         UIBarButtonItem *previousItem = [[UIBarButtonItem alloc] initWithTitle:@"上一个" style:(UIBarButtonItemStylePlain) target:self action:@selector(showPrevious)];
@@ -68,18 +67,16 @@
 -(void)showHide {
     
     NSInteger current = [_fieldArray indexOfObject:_currentField];
+    
     UITextField *field = [_fieldArray objectAtIndex:current];
     [field resignFirstResponder];
-    CGFloat screenHeight = [[UIScreen mainScreen] bounds].size.height;
-    CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    
     [_toolBar setFrame:CGRectMake(0, screenHeight, screenWidth, 44)];
 }
 
 -(void)keyboardFrameChange:(NSNotification*)notify {
     
     CGRect frame = [[[notify userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey]CGRectValue];
-    
-    CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
 
     [UIView animateWithDuration:0.1 animations:^{
         
